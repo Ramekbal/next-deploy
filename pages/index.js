@@ -26,6 +26,7 @@ function HomePage(props) {
   }, []);
   return (
     <div>
+      <h1>This is deploy</h1>
       <input type="text" ref={email} />
       <button type="button" onClick={() => submitEmail()}>
         Submit
