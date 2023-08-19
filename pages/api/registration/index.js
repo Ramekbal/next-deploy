@@ -1,20 +1,16 @@
-import { MongoClient } from "mongodb";
+import { connectToClient, connectToDB } from "../../../lib/db";
 
 async function register(req, res) {
   if (req.method === "POST") {
-    const client = await MongoClient.connect(
-      `mongodb+srv://${process.env.mongodb_userName}:${process.env.mongodb_password}@${process.env.mongodb_cluster}.iec4hzh.mongodb.net/${process.env.mongodb_database}?retryWrites=true&w=majority`
-    );
-    const db = await client.db();
+    const client = await connectToClient();
+    const db = await connectToDB(client);
     await db.collection("email").insertOne({ email: req.body.email });
     client.close();
     res.status(200).json({ massage: "Success!" });
   }
   if (req.method === "GET") {
-    const client = await MongoClient.connect(
-      `mongodb+srv://${process.env.mongodb_userName}:${process.env.mongodb_password}@${process.env.mongodb_cluster}.iec4hzh.mongodb.net/${process.env.mongodb_database}?retryWrites=true&w=majority`
-    );
-    const db = await client.db();
+    const client = await connectToClient();
+    const db = await connectToDB(client);
     const data = await db
       .collection("email")
       .find()
